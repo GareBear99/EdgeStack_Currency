@@ -11,6 +11,14 @@ description: Event-Sourced Multi-Currency Execution Spec — part of the ARC Tra
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/GareBear99/EdgeStack_Currency/blob/main/LICENSE)
 [![Built on ARC-Core](https://img.shields.io/badge/built%20on-ARC--Core-5B6CFF)](https://github.com/GareBear99/ARC-Core)
 
+## 📖 Official docs
+
+[![Open the official spec](https://img.shields.io/badge/%F0%9F%93%96%20Official%20Spec-Open%20the%20full%20text-0366d6?style=for-the-badge)](./official/edge_stacking_system_spec.txt)
+
+[![AI implementation prompt](https://img.shields.io/badge/%F0%9F%A4%96%20AI%20Implementation%20Prompt-Open-5B6CFF?style=for-the-badge)](./official/AI_CANONICAL_IMPLEMENTATION_PROMPT.txt)
+
+Live URL of the primary doc: `https://garebear99.github.io/EdgeStack_Currency/official/edge_stacking_system_spec.txt`
+
 ## What this is
 
 EdgeStack Currency is part of the **ARC Trading Fleet** — six public repositories that share a

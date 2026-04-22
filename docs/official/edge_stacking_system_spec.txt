@@ -1,0 +1,162 @@
+SYSTEM SPECIFICATION
+Event-Sourced Multi-Currency Execution & Edge-Stacking Engine
+(Canonical Design Doc for AI Implementation)
+
+PURPOSE & PHILOSOPHY
+Purpose
+Build a survivable, scalable trading and execution system that:
+- makes money primarily from efficiency, restraint, and structure
+- avoids prediction dependence
+- remains correct under delayed settlement, partial fills, and multi-currency drift
+- can be extended into higher-risk layers without breaking the core
+
+Core Philosophy
+The system does not try to be right often.
+It tries to never be wrong expensively.
+
+GLOBAL NON-NEGOTIABLES
+1. Single Source of Truth
+All balances, PnL, and allocations derive from an event-sourced ledger.
+No module may directly mutate balances.
+
+2. EV Gating
+No action is taken unless:
+expected_value > (spread + fees + slippage + safety_buffer)
+
+3. Risk Before Return
+Capital survival is prioritized over profit.
+All profit estimates are meaningless if ledger integrity fails.
+
+4. Low State Complexity
+Add edges only if they do not multiply simultaneous exposure,
+do not complicate settlement logic,
+and do not introduce hidden leverage.
+
+SYSTEM ARCHITECTURE OVERVIEW
+External Reality (Broker / Exchange APIs)
+→ Reconciliation Engine
+→ Event-Sourced Ledger (Canonical Truth)
+→ Projections Layer
+→ Decision Engine
+→ Execution Engine
+→ Orders / Conversions
+
+EVENT-SOURCED LEDGER
+Purpose
+Prevent balance drift, phantom profits, and hidden losses under:
+- partial fills
+- delayed settlement
+- multi-currency activity
+- multiple venues
+
+Rule
+Balances are projections.
+Events are truth.
+
+Event Schema
+event_id (unique)
+timestamp
+venue
+currency
+delta_available
+delta_reserved
+delta_pending
+reference_id
+event_type
+notes
+
+Event Types
+DEPOSIT
+WITHDRAWAL
+ORDER_PLACED
+ORDER_CANCELLED
+FILL_PARTIAL
+FILL_COMPLETE
+FEE
+FX_CONVERSION
+TRANSFER_INTERNAL
+SETTLEMENT_ADJUSTMENT
+RECONCILIATION_CORRECTION
+
+Balance Buckets
+available
+reserved
+pending
+
+RECONCILIATION ENGINE
+Runs on cadence.
+Pulls broker balances, orders, positions.
+Differences resolved via adjustment events or halt.
+
+PROJECTIONS LAYER
+Derived only from ledger.
+Provides balances, exposure, equity, PnL, risk.
+
+NETTING ENGINE
+Avoid unnecessary conversions.
+Net opposing deltas internally.
+
+FX ROUTER
+Currency graph.
+Edge cost = spread + fees + slippage buffer.
+Choose cheapest path.
+Not arbitrage chasing.
+
+EXECUTION SLICER
+Split lump sums.
+Execute only under favorable spreads and volatility.
+
+DECISION ENGINE
+Unison Mode:
+- Max 1 position
+- Best EV only
+
+Currency Strength:
+Filter only.
+Never a standalone signal.
+
+Time Filters:
+Trade only in liquid windows.
+
+Volatility Regimes:
+Only one active per session.
+
+Loss Avoidance:
+Stop on loss clusters or anomalies.
+
+EV GATING
+expected_edge - all costs > 0
+
+PROFIT VELOCITY
+Recycle realized profits only.
+Wins only.
+Session capped.
+
+RISK GOVERNORS
+Max risk per trade
+Max daily loss
+Max currency exposure
+Max correlation
+Max positions
+
+PARAMETER OPTIMIZATION
+Grid search allowed only on stable parameters.
+Walk-forward only.
+
+PERFORMANCE EXPECTATIONS
+Base system:
+3–7% monthly sustainable.
+8–10% exceptional.
+10–20% requires explicit added risk.
+
+FAILURE MODES
+API outages
+Partial fills
+Settlement delay
+Balance mismatch
+Spread explosions
+Correct response often: do nothing.
+
+FINAL SYSTEM TRUTH
+This system makes money not by being clever,
+but by being correct longer than others survive.

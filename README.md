@@ -76,6 +76,15 @@ MIT — see `LICENSE`. This is a specification and is not financial advice.
 
 ---
 
+<!-- ARC-Official-Docs-Link-Marker -->
+## 📖 Official docs
+
+[**Open the rendered official docs → https://garebear99.github.io/EdgeStack_Currency/official/edge_stacking_system_spec.txt**](https://garebear99.github.io/EdgeStack_Currency/official/edge_stacking_system_spec.txt)
+
+Also available under [`docs/official/`](https://github.com/GareBear99/EdgeStack_Currency/tree/main/docs/official) in-tree, and through the Pages landing at [https://garebear99.github.io/EdgeStack_Currency/](https://garebear99.github.io/EdgeStack_Currency/). (Plain-text spec; the AI-implementation prompt is at `official/AI_CANONICAL_IMPLEMENTATION_PROMPT.txt`.)
+
+
+
 <!-- ARC-Trading-Fleet-Nav-Marker -->
 ## 🧭 ARC Trading Fleet
 
